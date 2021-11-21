@@ -218,10 +218,15 @@ void hardware::BluetoothManager::objSppCallback(esp_spp_cb_event_t event, esp_sp
         case ESP_SPP_DATA_IND_EVT:
         {
             logging::Logger::info(TAG, "SPP data event from handle {}", param->data_ind.handle);
-            const char* data = reinterpret_cast<const char*>(param->data_ind.data);
+            char* data = reinterpret_cast<char*>(param->data_ind.data);
             std::size_t length = param->data_ind.len;
             auto string = std::string(data, length);
             logging::Logger::info(TAG, "Data is {}", string);
+
+            std::string answer = fmt::format("Answer: {}", string);
+            logging::Logger::info(TAG, "Writing answer {}", answer);
+
+            esp_spp_write(param->data_ind.handle, static_cast<int>(answer.size()), reinterpret_cast<uint8_t*>(&answer[0]));
             break;
         }
         case ESP_SPP_CONG_EVT:
