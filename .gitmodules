@@ -1,0 +1,4 @@
+[submodule "components/logging/lib/fmt"]
+	path = components/logging/lib/fmt
+	url = https://github.com/fmtlib/fmt.git
+	branch = 8.0.1
