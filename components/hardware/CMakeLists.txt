@@ -1,5 +1,6 @@
 set(sources
-        src/bluetooth/BluetoothManager.cpp)
+        src/bluetooth/BluetoothManager.cpp
+        src/input/Button.cpp)
 
 idf_component_register(
     SRCS
@@ -8,5 +9,6 @@ idf_component_register(
         "include"
     REQUIRES
         bt
+        button
         logging
 )

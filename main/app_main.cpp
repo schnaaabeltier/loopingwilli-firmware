@@ -1,4 +1,6 @@
 #include "hardware/bluetooth/BluetoothManager.h"
+#include "hardware/input/Button.h"
+#include "logging/Logger.h"
 
 #include "nvs_flash.h"
 
@@ -20,4 +22,8 @@ void app_main()
     settings.useSecureSimplePairing = CONFIG_BT_SPP_ENABLED;
     auto manager = hardware::BluetoothManager(settings);
     manager.initialize();
+
+//    auto button = hardware::Button(26, []() {
+//        logging::Logger::debug("main", "Button 26 pressed.");
+//    });
 }
