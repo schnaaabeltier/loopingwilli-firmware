@@ -1,9 +1,5 @@
 #include "hardware/input/Button.h"
-
-extern "C"
-{
-    #include "button/button.h"
-}
+#include "logging/Logger.h"
 
 #include <utility>
 
@@ -36,6 +32,7 @@ void hardware::Button::onEvent(button_event_t event)
 
 void hardware::Button::globalButtonCallback(button_event_t event, void* context)
 {
+    logging::Logger::error("Button", "Button event {}", event);
     auto* button = static_cast<Button*>(context);
     if (button != nullptr)
     {

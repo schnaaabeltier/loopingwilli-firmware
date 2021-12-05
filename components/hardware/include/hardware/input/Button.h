@@ -1,6 +1,9 @@
 #pragma once
 
-#include "button/button.h"
+extern "C"
+{
+    #include "button/button.h"
+}
 #include "hardware/core/IInitializableHardware.h"
 
 #include <functional>

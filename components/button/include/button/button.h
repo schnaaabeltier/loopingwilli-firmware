@@ -28,8 +28,8 @@ typedef void (*button_callback_fn)(button_event_t event, void* context);
 #define BUTTON_CONFIG(level, ...) \
   (button_config_t) { \
     .active_level = level, \
-    .repeat_press_timeout = 300, \
-    .max_repeat_presses = 1, \
+    .repeat_press_timeout = 300,  \
+    .max_repeat_presses = 1,      \
     __VA_ARGS__ \
   }
 
