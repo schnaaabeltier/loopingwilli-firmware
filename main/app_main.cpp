@@ -1,6 +1,7 @@
 #include "hardware/bluetooth/BluetoothManager.h"
 #include "hardware/input/Button.h"
 #include "hardware/input/InterruptButton.h"
+#include "hardware/led/LedStrip.h"
 #include "logging/Logger.h"
 
 #include "nvs_flash.h"
@@ -36,22 +37,23 @@ void app_main()
     auto button = new hardware::InterruptButton(config);
     button->initialize();
 
-    auto queue = button->queue();
-    hardware::ButtonEvent number;
-    for (;;)
+    hardware::LedStripSettings ledSettings {};
+    ledSettings.length = 3;
+    ledSettings.gpio = GPIO_NUM_19;
+    auto ledStrip = hardware::LedStrip(ledSettings);
+    ledStrip.initialize();
+    ledStrip.setBrightness(255);
+    ledStrip.setAllPixels(hardware::Color(125, 125, 125));
+    ledStrip.update();
+
+
+    for (int i = 0; i < 255; i++)
     {
-        if (queue == nullptr)
-        {
-            logging::Logger::error("MAIN", "Queue is null.");
-            vTaskDelay(10);
-            continue;
-        }
-
-        while (xQueueReceive(queue, &number, 10 / portTICK_PERIOD_MS))
-        {
-            logging::Logger::debug("MAIN", "Button event: {}", number == hardware::ButtonEvent::Pressed ? "Pressed" : "Release");
-        }
-
-        vTaskDelay(10 / portTICK_PERIOD_MS);
+        auto color = hardware::Color(i, i, i);
+        ledStrip.setPixel(0, hardware::Color(i, 0, 0));
+        ledStrip.setPixel(1, hardware::Color(0, i, 0));
+        ledStrip.setPixel(2, hardware::Color(0, 0, i));
+        ledStrip.update();
+        vTaskDelay(100 / portTICK_PERIOD_MS);
     }
 }

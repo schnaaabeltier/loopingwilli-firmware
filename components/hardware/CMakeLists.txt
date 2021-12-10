@@ -1,7 +1,9 @@
 set(sources
         src/bluetooth/BluetoothManager.cpp
         src/input/Button.cpp
-        src/input/InterruptButton.cpp)
+        src/input/InterruptButton.cpp
+        src/led/Color.cpp
+        src/led/LedStrip.cpp)
 
 idf_component_register(
     SRCS
@@ -12,6 +14,7 @@ idf_component_register(
         bt
         button
         freertos
+        led_strip
         logging
 )
 
