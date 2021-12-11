@@ -1,3 +1,4 @@
+#include "events/EventLoop.h"
 #include "hardware/bluetooth/BluetoothManager.h"
 #include "hardware/input/Button.h"
 #include "hardware/input/InterruptButton.h"
@@ -46,6 +47,11 @@ void app_main()
     ledStrip.setAllPixels(hardware::Color(125, 125, 125));
     ledStrip.update();
 
+    auto eventLoop = events::EventLoop();
+    eventLoop.initialize();
+    eventLoop.registerEventHandler(BUTTON_EVENTS, BUTTON_PRESSED_EVENT, [](void*) {
+        //logging::Logger::info("MAIN", "Event handler called.");
+    });
 
     for (int i = 0; i < 255; i++)
     {
@@ -54,6 +60,7 @@ void app_main()
         ledStrip.setPixel(1, hardware::Color(0, i, 0));
         ledStrip.setPixel(2, hardware::Color(0, 0, i));
         ledStrip.update();
+        eventLoop.postEvent(BUTTON_EVENTS, BUTTON_PRESSED_EVENT, nullptr);
         vTaskDelay(100 / portTICK_PERIOD_MS);
     }
 }
