@@ -20,6 +20,7 @@ namespace hardware
     {
     public:
         explicit BluetoothManager(BluetoothManagerSettings settings);
+        ~BluetoothManager();
 
         bool initialize() override;
         static void setCallbackInstance(BluetoothManager* manager);

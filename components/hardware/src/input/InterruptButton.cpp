@@ -7,8 +7,8 @@
 
 std::string hardware::InterruptButton::TAG = "InterruptButton";
 
-hardware::InterruptButton::InterruptButton(InterruptButtonConfig config) : m_gpio(config.gpioNumber),
-    m_buttonMode(config.buttonMode), m_debounceMs(config.debounceMs)
+hardware::InterruptButton::InterruptButton(InterruptButtonConfig config, events::EventLoop* eventLoop) : m_gpio(config.gpioNumber),
+    m_buttonMode(config.buttonMode), m_debounceMs(config.debounceMs), m_eventNumber(config.eventNumber), m_eventLoop(eventLoop)
 {
     m_buttonState = isPressed() ? ButtonState::Pressed : ButtonState::Released;
 }
@@ -42,8 +42,8 @@ void hardware::InterruptButton::onButtonEventIsr()
         setDebounceState(DebounceState::Unstable);
         m_lastDebounceStart = std::chrono::system_clock::now();
 
-        ButtonEvent event = isCurrentlyPressed ? ButtonEvent::Pressed : ButtonEvent::Released;
-        xQueueSendFromISR(m_queue, &event, nullptr);
+        int32_t eventId = isCurrentlyPressed ? BUTTON_PRESSED_EVENT : BUTTON_RELEASED_EVENT;
+        m_eventLoop->postEventFromIsr(BUTTON_EVENTS, eventId, static_cast<void*>(&m_eventNumber));
     }
 
     setButtonState(isCurrentlyPressed ? ButtonState::Pressed : ButtonState::Released);

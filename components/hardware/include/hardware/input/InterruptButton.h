@@ -2,6 +2,8 @@
 
 #include "hardware/core/IInitializableHardware.h"
 
+#include "events/EventLoop.h"
+
 #include "driver/gpio.h"
 #include "esp_intr_alloc.h"
 
@@ -43,12 +45,13 @@ namespace hardware
         gpio_num_t gpioNumber { GPIO_NUM_0 };
         std::chrono::milliseconds debounceMs { 50 };
         ButtonMode buttonMode { ButtonMode::ActiveHigh };
+        int eventNumber { 0 };
     };
 
     class InterruptButton : public IIntializableHardware
     {
     public:
-        explicit InterruptButton(InterruptButtonConfig config);
+        explicit InterruptButton(InterruptButtonConfig config, events::EventLoop* eventLoop);
         bool initialize() override;
 
         xQueueHandle queue();
@@ -66,10 +69,13 @@ namespace hardware
         gpio_num_t m_gpio { GPIO_NUM_0 };
         ButtonMode m_buttonMode { ButtonMode::ActiveLow };
         std::chrono::milliseconds m_debounceMs { 50 };
+        int m_eventNumber { 0 };
         DebounceState m_debounceState { DebounceState::Debounced };
         ButtonState m_buttonState { ButtonState::Released };
         xQueueHandle m_queue { nullptr };
         std::chrono::system_clock::time_point m_lastDebounceStart;
+
+        events::EventLoop* m_eventLoop { nullptr };
 
         std::mutex m_debounceMutex {};
         std::mutex m_buttonMutex {};

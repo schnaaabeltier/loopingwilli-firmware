@@ -13,6 +13,7 @@ idf_component_register(
     REQUIRES
         bt
         button
+        events
         freertos
         led_strip
         logging

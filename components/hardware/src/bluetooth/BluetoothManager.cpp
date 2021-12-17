@@ -16,6 +16,11 @@ hardware::BluetoothManager::BluetoothManager(BluetoothManagerSettings settings) 
     setCallbackInstance(this);
 }
 
+hardware::BluetoothManager::~BluetoothManager()
+{
+
+}
+
 void hardware::BluetoothManager::setCallbackInstance(BluetoothManager* manager)
 {
     CALLBACK_INSTANCE = manager;

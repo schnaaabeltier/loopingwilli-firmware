@@ -12,10 +12,13 @@ namespace events
     class EventLoop
     {
     public:
+        ~EventLoop();
+
         bool initialize();
 
         void registerEventHandler(esp_event_base_t eventBase, int32_t eventId, const std::function<void(void*)>& handler);
         void postEvent(esp_event_base_t eventBase, int32_t eventId, void* eventData);
+        void IRAM_ATTR postEventFromIsr(esp_event_base_t eventBase, int32_t eventId, void* eventData);
 
     private:
         static std::string TAG;

@@ -4,6 +4,14 @@
 
 std::string events::EventLoop::TAG = "EventLoop";
 
+events::EventLoop::~EventLoop()
+{
+    if (m_eventLoopHandle != nullptr)
+    {
+        esp_event_loop_delete(m_eventLoopHandle);
+    }
+}
+
 bool events::EventLoop::initialize()
 {
     esp_event_loop_args_t eventLoopArgs {};
@@ -78,4 +86,9 @@ void events::EventLoop::handleEvent(esp_event_base_t eventBase, int32_t eventId,
 void events::EventLoop::postEvent(esp_event_base_t eventBase, int32_t eventId, void* eventData)
 {
     esp_event_post_to(m_eventLoopHandle, eventBase, eventId, eventData, sizeof(eventData), 100 / portTICK_PERIOD_MS);
+}
+
+void events::EventLoop::postEventFromIsr(esp_event_base_t eventBase, int32_t eventId, void* eventData)
+{
+    esp_event_isr_post_to(m_eventLoopHandle, eventBase, eventId, eventData, sizeof(eventData), nullptr);
 }
