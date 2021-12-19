@@ -17,6 +17,8 @@ namespace device
 
         bool initialize();
 
+        events::EventLoop& eventLoop();
+
     private:
         static std::string TAG;
 

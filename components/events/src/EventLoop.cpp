@@ -66,29 +66,44 @@ void events::EventLoop::registerEventHandler(esp_event_base_t eventBase, int32_t
     m_eventHandlers[key].push_back(handler);
 }
 
+void events::EventLoop::registerGenericEventHandler(const std::function<void(const Event&)>& handler)
+{
+    m_genericEventHandlers.push_back(handler);
+}
+
 void events::EventLoop::onEventReceived(void* handlerArgs, esp_event_base_t eventBase, int32_t eventId, void* eventData)
 {
     auto eventLoop = static_cast<EventLoop*>(handlerArgs);
     eventLoop->handleEvent(eventBase, eventId, eventData);
 }
 
-void events::EventLoop::handleEvent(esp_event_base_t eventBase, int32_t eventId, void* eventData)
+void events::EventLoop::handleEvent(esp_event_base_t eventBase, int32_t eventId, void* eventDataPointer)
 {
     auto key = std::make_pair(eventBase, eventId);
     auto handlers = m_eventHandlers[key];
 
     for (auto& handler : handlers)
     {
-        handler(eventData);
+        handler(eventDataPointer);
+    }
+
+    for (auto& genericHandler : m_genericEventHandlers)
+    {
+        auto event = Event(eventBase, eventId, eventDataPointer);
+        genericHandler(event);
     }
 }
 
-void events::EventLoop::postEvent(esp_event_base_t eventBase, int32_t eventId, void* eventData)
+void events::EventLoop::postEvent(esp_event_base_t eventBase, int32_t eventId, void* eventData, std::size_t eventDataSize)
 {
-    esp_event_post_to(m_eventLoopHandle, eventBase, eventId, eventData, sizeof(eventData), 100 / portTICK_PERIOD_MS);
+    esp_event_post_to(m_eventLoopHandle, eventBase, eventId, eventData, eventDataSize, 100 / portTICK_PERIOD_MS);
 }
 
-void events::EventLoop::postEventFromIsr(esp_event_base_t eventBase, int32_t eventId, void* eventData)
+void events::EventLoop::postEventFromIsr(esp_event_base_t eventBase, int32_t eventId, void* eventData, std::size_t eventDataSize)
 {
-    esp_event_isr_post_to(m_eventLoopHandle, eventBase, eventId, eventData, sizeof(eventData), nullptr);
+    auto result = esp_event_isr_post_to(m_eventLoopHandle, eventBase, eventId, eventData, eventDataSize, nullptr);
+    if (result != ESP_OK)
+    {
+        ESP_DRAM_LOGE(TAG.c_str(), "Could not post to isr: %s", esp_err_to_name(result));
+    }
 }

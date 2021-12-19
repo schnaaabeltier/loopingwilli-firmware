@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Event.h"
 #include "Events.h"
 
 #include <functional>
@@ -17,8 +18,9 @@ namespace events
         bool initialize();
 
         void registerEventHandler(esp_event_base_t eventBase, int32_t eventId, const std::function<void(void*)>& handler);
-        void postEvent(esp_event_base_t eventBase, int32_t eventId, void* eventData);
-        void IRAM_ATTR postEventFromIsr(esp_event_base_t eventBase, int32_t eventId, void* eventData);
+        void registerGenericEventHandler(const std::function<void(const Event&)>& handler);
+        void postEvent(esp_event_base_t eventBase, int32_t eventId, void* eventData, std::size_t eventDataSize);
+        void IRAM_ATTR postEventFromIsr(esp_event_base_t eventBase, int32_t eventId, void* eventData, std::size_t eventDataSize);
 
     private:
         static std::string TAG;
@@ -31,6 +33,8 @@ namespace events
 
         esp_event_loop_handle_t m_eventLoopHandle { nullptr };
 
-        std::map<std::pair<esp_event_base_t, int32_t>, std::vector<std::function<void(void*)>>> m_eventHandlers;
+        std::map<int, int> m_testMap {};
+        std::map<std::pair<esp_event_base_t, int32_t>, std::vector<std::function<void(void*)>>> m_eventHandlers {};
+        std::vector<std::function<void(const Event&)>> m_genericEventHandlers {};
     };
 }

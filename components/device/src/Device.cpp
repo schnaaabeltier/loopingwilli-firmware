@@ -14,8 +14,8 @@ device::Device::~Device()
 
 bool device::Device::initialize()
 {
-    auto eventLoop = std::make_unique<events::EventLoop>();
-    bool initSuccess = eventLoop->initialize();
+    m_eventLoop = std::make_unique<events::EventLoop>();
+    bool initSuccess = m_eventLoop->initialize();
 
     auto bluetoothSettings = hardware::BluetoothManagerSettings {};
     bluetoothSettings.sppDeviceName = "Looping Willi";
@@ -23,6 +23,7 @@ bool device::Device::initialize()
 
     auto buttonSettings = hardware::InterruptButtonConfig {};
     buttonSettings.gpioNumber = GPIO_NUM_26;
+    buttonSettings.buttonMode = hardware::ButtonMode::ActiveLow;
     m_buttons.push_back(std::make_unique<hardware::InterruptButton>(buttonSettings, m_eventLoop.get()));
 
     auto ledSettings = hardware::LedStripSettings {};
@@ -49,4 +50,9 @@ bool device::Device::initialize()
     }
 
     return true;
+}
+
+events::EventLoop& device::Device::eventLoop()
+{
+    return *m_eventLoop;
 }

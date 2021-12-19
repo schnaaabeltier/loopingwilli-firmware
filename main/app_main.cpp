@@ -1,4 +1,5 @@
 #include "device/Device.h"
+#include "game/MainLoop.h"
 #include "logging/Logger.h"
 
 #include "nvs_flash.h"
@@ -29,4 +30,14 @@ void app_main()
         logging::Logger::error(TAG, "Could not initialize device.");
         esp_restart();
     }
+
+    auto mainLoop = std::make_unique<game::MainLoop>(device.get());
+    if (not mainLoop->initialize())
+    {
+        logging::Logger::error(TAG, "Could not initialize main loop.");
+        esp_restart();
+    }
+
+    logging::Logger::info(TAG, "Starting main loop.");
+    mainLoop->run();
 }

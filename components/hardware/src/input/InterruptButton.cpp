@@ -4,6 +4,7 @@
 #include "driver/gpio.h"
 
 #include <chrono>
+#include <cstdio>
 
 std::string hardware::InterruptButton::TAG = "InterruptButton";
 
@@ -43,7 +44,7 @@ void hardware::InterruptButton::onButtonEventIsr()
         m_lastDebounceStart = std::chrono::system_clock::now();
 
         int32_t eventId = isCurrentlyPressed ? BUTTON_PRESSED_EVENT : BUTTON_RELEASED_EVENT;
-        m_eventLoop->postEventFromIsr(BUTTON_EVENTS, eventId, static_cast<void*>(&m_eventNumber));
+        m_eventLoop->postEventFromIsr(BUTTON_EVENTS, eventId, static_cast<void*>(&m_eventNumber), sizeof(m_eventNumber));
     }
 
     setButtonState(isCurrentlyPressed ? ButtonState::Pressed : ButtonState::Released);

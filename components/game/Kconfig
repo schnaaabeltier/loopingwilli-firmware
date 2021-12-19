@@ -1,0 +1,9 @@
+menu "Game configuration"
+    config GAME_EVENT_QUEUE_SIZE
+        int "Game event queue size (number of elements)"
+        default 20
+
+    config GAME_MAIN_LOOP_SLEEP_INTERVAL
+        int "Number of ticks the main loop should sleep between each iteration"
+        default 10
+endmenu

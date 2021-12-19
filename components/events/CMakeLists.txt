@@ -1,4 +1,6 @@
 set(sources
+        src/Event.cpp
+        src/EventData.cpp
         src/Events.cpp
         src/EventLoop.cpp)
 
