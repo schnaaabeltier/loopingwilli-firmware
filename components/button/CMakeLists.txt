@@ -5,5 +5,7 @@ idf_component_register(
         src/button/button.c
     INCLUDE_DIRS
         include
+    REQUIRES
+        driver
 )
 target_compile_options(${COMPONENT_LIB} PRIVATE -DESP_IDF)
