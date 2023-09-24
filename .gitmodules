@@ -2,6 +2,3 @@
 	path = components/logging/lib/fmt
 	url = https://github.com/fmtlib/fmt.git
 	branch = 8.0.1
-[submodule "lib/esp-idf-lib"]
-	path = lib/esp-idf-lib
-	url = https://github.com/schnaaabeltier/esp-idf-lib

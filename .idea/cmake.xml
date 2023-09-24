@@ -2,14 +2,7 @@
 <project version="4">
   <component name="CMakeSharedSettings">
     <configurations>
-      <configuration PROFILE_NAME="ESP-IDF" ENABLED="true" GENERATION_DIR="build" CONFIG_NAME="Debug" TOOLCHAIN_NAME="ESD-IDF" GENERATION_OPTIONS="-G Ninja" BUILD_OPTIONS="-- -j32">
-        <ADDITIONAL_GENERATION_ENVIRONMENT>
-          <envs>
-            <env name="PYTHON" value="$USER_HOME$/.espressif/python_env/idf5.0_py3.10_env/bin/python" />
-            <env name="PATH" value="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sofia/.espressif/tools/xtensa-esp32-elf/esp-2021r2-8.4.0/xtensa-esp32-elf/bin" />
-          </envs>
-        </ADDITIONAL_GENERATION_ENVIRONMENT>
-      </configuration>
+      <configuration PROFILE_NAME="ESP-IDF" ENABLED="true" GENERATION_DIR="build" CONFIG_NAME="Debug" TOOLCHAIN_NAME="ESD-IDF" GENERATION_OPTIONS="-G Ninja" BUILD_OPTIONS="-- -j32" />
     </configurations>
   </component>
 </project>
