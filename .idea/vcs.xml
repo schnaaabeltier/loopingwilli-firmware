@@ -3,7 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$USER_HOME$/libraries/esp-idf" vcs="Git" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/components/logging/lib/fmt" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/lib/esp-idf-lib" vcs="Git" />
   </component>
 </project>

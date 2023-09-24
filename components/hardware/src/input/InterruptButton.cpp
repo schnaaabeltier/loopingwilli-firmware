@@ -77,7 +77,7 @@ bool hardware::InterruptButton::initialize()
 
     if (configResult != ESP_OK)
     {
-        logging::Logger::error(TAG, "Failed to configure GPIO {}: {}", m_gpio, esp_err_to_name(configResult));
+        logging::Logger::error(TAG, "Failed to configure GPIO {}: {}", (int) m_gpio, esp_err_to_name(configResult));
         return false;
     }
 

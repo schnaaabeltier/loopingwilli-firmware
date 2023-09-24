@@ -124,11 +124,11 @@ void hardware::BluetoothManager::objGapCallback(esp_bt_gap_cb_event_t event, esp
         {
             if (param->auth_cmpl.stat == ESP_BT_STATUS_SUCCESS)
             {
-                logging::Logger::info(TAG, "Successful GAP authentication of {}", param->auth_cmpl.device_name);
+                logging::Logger::info(TAG, "Successful GAP authentication of {}", (int) param->auth_cmpl.device_name);
             }
             else
             {
-                logging::Logger::error(TAG, "GAP authentication failed, status {}", param->auth_cmpl.stat);
+                logging::Logger::error(TAG, "GAP authentication failed, status {}", (int) param->auth_cmpl.stat);
             }
             break;
         }
@@ -177,7 +177,7 @@ void hardware::BluetoothManager::objGapCallback(esp_bt_gap_cb_event_t event, esp
         }
         default:
         {
-            logging::Logger::info(TAG, "Unspecified Gap event: {}", event);
+            logging::Logger::info(TAG, "Unspecified Gap event: {}", (int) event);
             break;
         }
     }

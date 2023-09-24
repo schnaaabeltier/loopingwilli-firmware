@@ -22,7 +22,7 @@ namespace game
 
         device::Device* m_device { nullptr };
 
-        xQueueHandle m_eventQueue { nullptr };
+        QueueHandle_t m_eventQueue { nullptr };
         StaticQueue_t m_staticEventQueue {};
         uint8_t m_eventQueueBuffer[CONFIG_GAME_EVENT_QUEUE_SIZE * sizeof(events::Event)] {};
 

@@ -1,0 +1,15 @@
+dependencies:
+  espressif/fmt:
+    component_hash: 930b2a4cb70c2d83c5c1078bdb569c459dc137c75b390464fb982ed9c8645e17
+    source:
+      service_url: https://api.components.espressif.com/
+      type: service
+    version: 10.1.0
+  idf:
+    component_hash: null
+    source:
+      type: idf
+    version: 5.1.1
+manifest_hash: 8eb2ee5e4e92a49296542076504a84d09c0b70556b5f1d55c1ee5ac9276a8f4f
+target: esp32
+version: 1.0.0

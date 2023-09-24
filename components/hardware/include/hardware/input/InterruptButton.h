@@ -54,7 +54,7 @@ namespace hardware
         explicit InterruptButton(InterruptButtonConfig config, events::EventLoop* eventLoop);
         bool initialize() override;
 
-        xQueueHandle queue();
+        QueueHandle_t queue();
     private:
         void IRAM_ATTR onButtonEventIsr();
         static void IRAM_ATTR globalGpioIsr(void* context);
@@ -72,7 +72,7 @@ namespace hardware
         int m_eventNumber { 0 };
         DebounceState m_debounceState { DebounceState::Debounced };
         ButtonState m_buttonState { ButtonState::Released };
-        xQueueHandle m_queue { nullptr };
+        QueueHandle_t m_queue { nullptr };
         std::chrono::system_clock::time_point m_lastDebounceStart;
 
         events::EventLoop* m_eventLoop { nullptr };

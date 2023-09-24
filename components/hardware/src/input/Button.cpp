@@ -32,7 +32,7 @@ void hardware::Button::onEvent(button_event_t event)
 
 void hardware::Button::globalButtonCallback(button_event_t event, void* context)
 {
-    logging::Logger::error("Button", "Button event {}", event);
+    logging::Logger::error("Button", "Button event {}", (int) event);
     auto* button = static_cast<Button*>(context);
     if (button != nullptr)
     {

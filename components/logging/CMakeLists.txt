@@ -9,8 +9,5 @@ idf_component_register(
             "include"
         REQUIRES
             log
+            fmt
 )
-
-add_subdirectory(lib/fmt)
-
-target_link_libraries(__idf_logging PUBLIC fmt)
